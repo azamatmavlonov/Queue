@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Queue.Domain.Abstract;
 using Queue.Domain.Enums;
 
 namespace Queue.Domain.Models

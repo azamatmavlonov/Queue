@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Queue.Domain.Models;
 
-namespace Queue.Domain.Models
+namespace Queue.Domain.Abstract
 {
     public abstract class Person : EntityBase
     {

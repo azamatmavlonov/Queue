@@ -15,4 +15,9 @@
     <ProjectReference Include="..\..\Queue.Application\Queue.Application\Queue.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Persistence\TableConfigurations\" />
+    <Folder Include="Persistence\Migrations\" />
+  </ItemGroup>
+
 </Project>
