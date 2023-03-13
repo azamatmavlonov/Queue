@@ -15,5 +15,7 @@ namespace Queue.Domain.Models
         public string? InstagramAccount { get; set; }
         public DateTime DateOfEmployment { get; set; }  
         public DateTime? DesmissialDate { get; set; }
+        public int Discharge { get; set; } = 1;
+        public int Post { get; set; } = default;
     }
 }
