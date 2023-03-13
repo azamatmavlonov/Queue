@@ -1,4 +1,6 @@
 ﻿using Queue.Application.Common.Interfaces;
+using Queue.Application.Requests;
+using Queue.Application.Responses;
 using Queue.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -8,9 +10,12 @@ using System.Threading.Tasks;
 
 namespace Queue.Application.Services
 {
-    public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity : EntityBase
+    public abstract class BaseService<TEntity, IRequest, IResponse> : IBaseService<TEntity, IRequest, IResponse>
+        where TEntity : EntityBase
+        where IRequest : BaseRequest
+        where IResponse : BaseResponse
     {
-        public virtual TEntity Create(TEntity entity)
+        public virtual Task<IResponse> Create(IRequest request)
         {
             throw new NotImplementedException();
         }
@@ -20,12 +25,17 @@ namespace Queue.Application.Services
             throw new NotImplementedException();
         }
 
-        public virtual TEntity Get(ulong id)
+        public virtual Task<IResponse> Get(ulong id)
         {
             throw new NotImplementedException();
         }
 
-        public virtual TEntity Update(TEntity entity, ulong id)
+        public virtual Task<IEnumerable<IResponse>> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Task<IResponse> Update(IRequest request, ulong id)
         {
             throw new NotImplementedException();
         }

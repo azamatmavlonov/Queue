@@ -1,5 +1,9 @@
-﻿using Queue.Application.Common.Interfaces;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Queue.Application.Common.Interfaces;
 using Queue.Application.Common.Interfaces.Repositories;
+using Queue.Application.Requests.ClientRequests;
+using Queue.Application.Responses.ClientResponses;
 using Queue.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -9,61 +13,69 @@ using System.Threading.Tasks;
 
 namespace Queue.Application.Services
 {
-    public class ClientService : BaseService<Client>, IClientService
+    public class ClientService : BaseService<Client, CreateClientRequest, ClientResponse>, IClientService
     {
         private readonly IRepository<Client> _repository;
-        public ClientService(IRepository<Client> repository) 
+        private readonly IMapper _mapper;
+        
+        public ClientService(IRepository<Client> repository, IMapper mapper) 
         { 
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public override Client Create(Client entity)
+        public async override Task<ClientResponse> Create(CreateClientRequest request)
         {
-            if (entity == null) throw new NullReferenceException();
+            if (request == null) throw new NullReferenceException(nameof(Client));
 
-            _repository.Add(entity);
-            _repository.SaveChanges();
-            return entity;
+            var entity = _mapper.Map<CreateClientRequest, Client>(request);
+
+            await _repository.AddAsync(entity);
+            await _repository.SaveChangesAsync();
+
+            return _mapper.Map<Client, ClientResponse>(entity);
         }
 
         public override bool Delete(ulong id)
         {
             var entity = _repository.Find(id);
 
-            if (entity == null) throw new NullReferenceException();
+            if (entity == null) throw new NullReferenceException(nameof(Client));
 
             _repository.Delete(entity);
             _repository.SaveChanges();
             return true;
         }
 
-        public override Client Get(ulong id)
+        public async override Task<ClientResponse> Get(ulong id)
         {
-            var entity = _repository.Find(id);
+            var entity = await _repository.FindAsync(id);
 
-            if (entity == null) throw new NullReferenceException();
+            if (entity == null) throw new NullReferenceException(nameof(Client));
 
-            return entity;
+            return _mapper.Map<Client, ClientResponse>(entity);
         }
 
-        public override Client Update(Client client, ulong id)
+        public async override Task<ClientResponse> Update(CreateClientRequest request, ulong id)
         {
-            var entity = _repository.Find(id);
+            var entity = await _repository.FindAsync(id);
 
-            if (client == null) throw new NullReferenceException();
+            if (entity == null) throw new NullReferenceException(nameof(Client));
 
-            entity.FirstName = client.FirstName;
-            entity.LastName = client.LastName;
-            entity.Birthday = client.Birthday;
-            entity.Phone = client.Phone;
-            entity.Login = client.Login;
-            entity.Password = entity.Password;
-            entity.Discount = client.Discount;
+            //entity.FirstName = client.FirstName;
+            //entity.LastName = client.LastName;
+            //entity.Birthday = client.Birthday;
+            //entity.Phone = client.Phone;
+            //entity.Login = client.Login;
+            //entity.Password = entity.Password;
+            //entity.Discount = client.Discount;
+
+            var result = _mapper.Map<CreateClientRequest, ClientResponse>(request);
 
             _repository.Update(entity);
-            _repository.SaveChanges();
+            await _repository.SaveChangesAsync();
 
-            return entity;
+            return result;
         }
     }
 }

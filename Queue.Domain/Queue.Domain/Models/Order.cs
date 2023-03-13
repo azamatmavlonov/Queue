@@ -8,8 +8,6 @@ namespace Queue.Domain.Models
 {
     public class Order : EntityBase
     {
-        public Schedule DateTime { get; set; }
-        public ulong ScheduleId { get; set; }
         public IEnumerable<Service> Services { get; set; }  
         public Order Client { get; set; }
         public ulong ClientId { get; set; }

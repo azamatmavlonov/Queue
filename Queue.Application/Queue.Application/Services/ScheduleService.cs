@@ -1,5 +1,8 @@
-﻿using Queue.Application.Common.Interfaces;
+﻿using AutoMapper;
+using Queue.Application.Common.Interfaces;
 using Queue.Application.Common.Interfaces.Repositories;
+using Queue.Application.Requests.ScheduleRequests;
+using Queue.Application.Responses.ScheduleResponses;
 using Queue.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -9,59 +12,66 @@ using System.Threading.Tasks;
 
 namespace Queue.Application.Services
 {
-    public class ScheduleService : BaseService<Schedule>, IScheduleService
+    public class ScheduleService : BaseService<Schedule, CreateScheduleRequest, ScheduleResponse>, IScheduleService
     {
         private readonly IRepository<Schedule> _repository;
+        private readonly IMapper _mapper;
 
-        public ScheduleService(IRepository<Schedule> repository)
+        public ScheduleService(IRepository<Schedule> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public override Schedule Create(Schedule entity)
+        public async override Task<ScheduleResponse> Create(CreateScheduleRequest request)
         {
-            if (entity == null) throw new NullReferenceException();
+            if (request == null) throw new NullReferenceException(nameof(Schedule));
 
-            _repository.Add(entity);
-            _repository.SaveChanges();
-            return entity;
+            var entity = _mapper.Map<CreateScheduleRequest, Schedule>(request);
+
+            await _repository.AddAsync(entity);
+            await _repository.SaveChangesAsync();
+
+            return _mapper.Map<Schedule, ScheduleResponse>(entity);
         }
 
         public override bool Delete(ulong id)
         {
             var entity = _repository.Find(id);
 
-            if (entity == null) throw new NullReferenceException();
+            if (entity == null) throw new NullReferenceException(nameof(Schedule));
 
             _repository.Delete(entity);
             _repository.SaveChanges();
             return true;
         }
 
-        public override Schedule Get(ulong id)
+        public async override Task<ScheduleResponse> Get(ulong id)
         {
-            var entity = _repository.Find(id);
+            var entity = await _repository.FindAsync(id);
 
-            if (entity == null) throw new NullReferenceException();
+            if (entity == null) throw new NullReferenceException(nameof(Schedule));
 
-            return entity;
+            return _mapper.Map<Schedule, ScheduleResponse>(entity);
         }
 
-        public override Schedule Update(Schedule schedule, ulong id)
+        public async override Task<ScheduleResponse> Update(CreateScheduleRequest request, ulong id)
         {
-            var entity = _repository.Find(id);
+            var entity = await _repository.FindAsync(id);
 
-            if (entity == null) throw new NullReferenceException();
+            if (entity == null) throw new NullReferenceException(nameof(Schedule));
 
-            entity.WorkerId = schedule.WorkerId;
-            entity.Day = schedule.Day;
-            entity.Hour = schedule.Hour;
-            entity.IsWorkingDay = schedule.IsWorkingDay;
-            entity.IsEnable = schedule.IsEnable;
+            //entity.WorkerId = schedule.WorkerId;
+            //entity.Day = schedule.Day;
+            //entity.Hour = schedule.Hour;
+            //entity.IsWorkingDay = schedule.IsWorkingDay;
+            //entity.IsEnable = schedule.IsEnable;
+
+            var result = _mapper.Map<CreateScheduleRequest, ScheduleResponse>(request);
 
             _repository.Update(entity);
-            _repository.SaveChanges();
-            return entity;
+            await _repository.SaveChangesAsync();
+            return result;
         }
     }
 }

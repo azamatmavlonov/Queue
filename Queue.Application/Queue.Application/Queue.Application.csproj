@@ -11,25 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Mappers\" />
-    <Folder Include="Requests\ClientRequests\" />
-    <Folder Include="Requests\OrderRequests\" />
-    <Folder Include="Requests\ScheduleRequests\" />
-    <Folder Include="Requests\ServiceRequests\" />
-    <Folder Include="Requests\WorkerRequests\" />
-    <Folder Include="Responses\ClientResponses\" />
-    <Folder Include="Responses\OrderResponses\" />
-    <Folder Include="Responses\ScheduleResponses\" />
-    <Folder Include="Responses\ServiceResponses\" />
-    <Folder Include="Responses\WorkerResponses\" />
-    <Folder Include="Validations\ClientValidations\" />
-    <Folder Include="Validations\OrderValidations\" />
-    <Folder Include="Validations\ScheduleValidations\" />
-    <Folder Include="Validations\ServiceValidations\" />
-    <Folder Include="Validations\WorkerValidations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="FluentValidation" Version="11.5.1" />
