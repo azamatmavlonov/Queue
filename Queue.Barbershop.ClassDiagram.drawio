@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-03-13T09:31:38.145Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69" etag="rH3ByeWRW_Az2Ek-H19Z" version="21.0.6" type="github">
+<mxfile host="app.diagrams.net" modified="2023-03-13T09:34:18.037Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.69" etag="ZCT6jLlomSbw1uv7bTOK" version="21.0.6" type="github">
   <diagram name="Queue.Barbershop.ClassDiagram" id="irWkB9rP7BICQJsYW8yP">
     <mxGraphModel dx="875" dy="484" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -85,6 +85,11 @@
         </mxCell>
         <mxCell id="gZnwhyRQYcO1rCb7rKjb-26" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.25;entryDx=0;entryDy=0;dashed=1;fillColor=#f8cecc;strokeColor=#b85450;strokeWidth=1.5;" edge="1" parent="1" source="gZnwhyRQYcO1rCb7rKjb-2" target="gZnwhyRQYcO1rCb7rKjb-22">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gZnwhyRQYcO1rCb7rKjb-44" value="inherits" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="gZnwhyRQYcO1rCb7rKjb-26">
+          <mxGeometry x="-0.7067" y="-2" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="gZnwhyRQYcO1rCb7rKjb-28" value="Schedule : EntityBase" style="swimlane;childLayout=stackLayout;horizontal=1;startSize=50;horizontalStack=0;rounded=1;fontSize=14;fontStyle=0;strokeWidth=2;resizeParent=0;resizeLast=1;shadow=1;dashed=0;align=center;arcSize=4;whiteSpace=wrap;html=1;swimlaneFillColor=default;" vertex="1" parent="1">
           <mxGeometry x="370" y="460" width="160" height="150" as="geometry" />
