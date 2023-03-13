@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Queue.Application.Common.Interfaces
 {
-    public interface IScheduleService : IBaseService<Schedule, CreateScheduleRequest, ScheduleResponse>
+    public interface IScheduleService : IBaseService<Schedule, ScheduleRequest, ScheduleResponse>
     {
     }
 }

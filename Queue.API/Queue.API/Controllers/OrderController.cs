@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Queue.Application.Common.Interfaces;
+using Queue.Application.Requests.OrderRequests;
+using Queue.Application.Responses.ClientResponses;
+using Queue.Application.Responses.OrderResponses;
 using Queue.Domain.Models;
 using System.Reflection.Metadata.Ecma335;
 
@@ -17,23 +20,23 @@ namespace Queue.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(ulong id)
+        public async Task<ActionResult<OrderResponse>> Get(ulong id)
         {
-            var entity = _orderService.Get(id);
+            var entity = await _orderService.Get(id);
             return Ok(entity);
         }
 
         [HttpPost]
-        public IActionResult Post(Order order)
+        public async Task<ActionResult<OrderResponse>> Post(CreateOrderRequest order)
         {
-            var entity = _orderService.Create(order);
+            var entity = await _orderService.Create(order);
             return Ok(entity);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(Order order, ulong id)
+        public async Task<ActionResult<OrderResponse>> Put(CreateOrderRequest order, ulong id)
         {
-            var entity = _orderService.Update(order, id);
+            var entity = await _orderService.Update(order, id);
             return Ok(entity);
         }
 

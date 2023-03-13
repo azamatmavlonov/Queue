@@ -13,7 +13,9 @@ namespace Queue.Application.Validations.WorkerValidations
     {
         public CreateWorkerValidation()
         {
-            
+            RuleFor(w => w.FirstName).NotEmpty().NotNull().MinimumLength(2).MaximumLength(20);
+            RuleFor(w => w.LastName).NotEmpty().NotNull().MinimumLength(2).MaximumLength(20);
+            RuleFor(w => w.Phone).NotEmpty().NotNull();
         }
     }
 }

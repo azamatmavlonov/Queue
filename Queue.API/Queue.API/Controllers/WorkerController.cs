@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Queue.Application.Common.Interfaces;
+using Queue.Application.Requests.WorkerRequests;
+using Queue.Application.Responses.WorkerResponses;
 using Queue.Domain.Models;
 using System.Reflection.Metadata.Ecma335;
 
@@ -17,23 +19,23 @@ namespace Queue.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(ulong id)
+        public async Task<ActionResult<WorkerResponse>> Get(ulong id)
         {
-            var entity = _workerService.Get(id);
+            var entity = await _workerService.Get(id);
             return Ok(entity);
         }
 
         [HttpPost]
-        public IActionResult Post(Worker worker)
+        public async Task<ActionResult<WorkerResponse>> Post(CreateWorkerRequest worker)
         {
-            var entity = _workerService.Create(worker);
+            var entity = await _workerService.Create(worker);
             return Ok(entity);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(Worker worker, ulong id)
+        public async Task<ActionResult<WorkerResponse>> Put(CreateWorkerRequest worker, ulong id)
         {
-            var entity = _workerService.Update(worker, id);
+            var entity = await _workerService.Update(worker, id);
             return Ok(entity);
         }
 

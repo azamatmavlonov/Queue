@@ -8,5 +8,9 @@ namespace Queue.Application.Responses.ServiceResponses
 {
     public class ServiceResponse : BaseResponse
     {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int AverageExecutionTime { get; set; }
+        public double Price { get; set; }
     }
 }

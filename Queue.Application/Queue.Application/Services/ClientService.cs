@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Queue.Application.Services
 {
-    public class ClientService : BaseService<Client, CreateClientRequest, ClientResponse>, IClientService
+    public class ClientService : BaseService<Client, ClientRequest, ClientResponse>, IClientService
     {
         private readonly IRepository<Client> _repository;
         private readonly IMapper _mapper;
@@ -24,11 +24,12 @@ namespace Queue.Application.Services
             _mapper = mapper;
         }
 
-        public async override Task<ClientResponse> Create(CreateClientRequest request)
+        public async override Task<ClientResponse> Create(ClientRequest request)
         {
             if (request == null) throw new NullReferenceException(nameof(Client));
 
-            var entity = _mapper.Map<CreateClientRequest, Client>(request);
+            var createClientRequest = request as CreateClientRequest;
+            var entity = _mapper.Map<CreateClientRequest, Client>(createClientRequest);
 
             await _repository.AddAsync(entity);
             await _repository.SaveChangesAsync();
@@ -56,26 +57,18 @@ namespace Queue.Application.Services
             return _mapper.Map<Client, ClientResponse>(entity);
         }
 
-        public async override Task<ClientResponse> Update(CreateClientRequest request, ulong id)
+        public async override Task<ClientResponse> Update(ClientRequest request, ulong id)
         {
             var entity = await _repository.FindAsync(id);
-
             if (entity == null) throw new NullReferenceException(nameof(Client));
 
-            //entity.FirstName = client.FirstName;
-            //entity.LastName = client.LastName;
-            //entity.Birthday = client.Birthday;
-            //entity.Phone = client.Phone;
-            //entity.Login = client.Login;
-            //entity.Password = entity.Password;
-            //entity.Discount = client.Discount;
-
-            var result = _mapper.Map<CreateClientRequest, ClientResponse>(request);
-
+            var updateClientRequest = request as UpdateClientRequest;
+            var result = _mapper.Map(updateClientRequest, entity);
+            
             _repository.Update(entity);
             await _repository.SaveChangesAsync();
 
-            return result;
+            return _mapper.Map<Client, ClientResponse>(result);
         }
     }
 }

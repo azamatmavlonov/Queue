@@ -12,7 +12,7 @@ namespace Queue.Application.Validations.OrderValidations
     {
         public CreateOrderValidation()
         {
-            
+            RuleFor(o => o.TotalPrice).GreaterThan(0);
         }
     }
 }

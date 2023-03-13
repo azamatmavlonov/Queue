@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Queue.Application.Common.Interfaces;
+using Queue.Application.Requests.ScheduleRequests;
+using Queue.Application.Responses.ScheduleResponses;
 using Queue.Domain.Models;
 using System.Reflection.Metadata.Ecma335;
 
@@ -17,23 +19,23 @@ namespace Queue.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(ulong id)
+        public async Task<ActionResult<ScheduleResponse>> Get(ulong id)
         {
-            var entity = _scheduleService.Get(id);
+            var entity = await _scheduleService.Get(id);
             return Ok(entity);
         }
 
         [HttpPost]
-        public IActionResult Post(Schedule schedule)
+        public async Task<ActionResult<ScheduleResponse>> Post(CreateScheduleRequest schedule)
         {
-            var entity = _scheduleService.Create(schedule);
+            var entity = await _scheduleService.Create(schedule);
             return Ok(entity);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(Schedule schedule, ulong id)
+        public async Task<ActionResult<ScheduleResponse>> Put(CreateScheduleRequest schedule, ulong id)
         {
-            var entity = _scheduleService.Update(schedule, id);
+            var entity = await _scheduleService.Update(schedule, id);
             return Ok(entity);
         }
 

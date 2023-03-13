@@ -13,7 +13,10 @@ namespace Queue.Application.Validations.ServiceValidations
     {
         public CreateServiceValidation()
         {
-            
+            RuleFor(s => s.Name).NotEmpty().NotNull();
+            RuleFor(s => s.Price).GreaterThan(0);
+            RuleFor(s => s.AverageExecutionTime).NotEmpty().NotNull().GreaterThan(0);
+            RuleFor(s => s.Description).MinimumLength(10).MaximumLength(300);
         }
     }
 }

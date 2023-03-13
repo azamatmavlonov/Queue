@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.AspNetCore.Mvc;
 using Queue.Application.Common.Interfaces;
+using Queue.Application.Requests.ServiceRequests;
+using Queue.Application.Responses.ServiceResponses;
 using Queue.Domain.Models;
 using System.Reflection.Metadata.Ecma335;
 
@@ -17,23 +19,23 @@ namespace Queue.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(ulong id)
+        public async  Task<ActionResult<ServiceResponse>> Get(ulong id)
         {
-            var entity = _serviceService.Get(id);
+            var entity = await _serviceService.Get(id);
             return Ok(entity);
         }
 
         [HttpPost]
-        public IActionResult Post(Service service)
+        public async Task<ActionResult<ServiceResponse>> Post(CreateServiceRequest service)
         {
-            var entity = _serviceService.Create(service);
+            var entity = await _serviceService.Create(service);
             return Ok(entity);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(Service service, ulong id)
+        public async Task<ActionResult<ServiceResponse>> Put(CreateServiceRequest service, ulong id)
         {
-            var entity = _serviceService.Update(service, id);
+            var entity = await _serviceService.Update(service, id);
             return Ok(entity);
         }
 

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Queue.Application.Services
 {
-    public class ServiceService : BaseService<Service, CreateServiceRequest, ServiceResponse>, IServiceService
+    public class ServiceService : BaseService<Service, ServiceRequest, ServiceResponse>, IServiceService
     {
         private readonly IRepository<Service> _repository;
         private readonly IMapper _mapper;
@@ -23,11 +23,12 @@ namespace Queue.Application.Services
             _mapper = mapper;
         }
 
-        public async override Task<ServiceResponse> Create(CreateServiceRequest request)
+        public async override Task<ServiceResponse> Create(ServiceRequest request)
         {
             if (request == null) throw new NullReferenceException(nameof(Service));
 
-            var entity = _mapper.Map<CreateServiceRequest, Service>(request);
+            var createServiceRequest = request as CreateServiceRequest;
+            var entity = _mapper.Map<CreateServiceRequest, Service>(createServiceRequest);
 
             await _repository.AddAsync(entity);
             await _repository.SaveChangesAsync();
@@ -54,22 +55,18 @@ namespace Queue.Application.Services
             return _mapper.Map<Service, ServiceResponse>(entity);
         }
 
-        public async override Task<ServiceResponse> Update(CreateServiceRequest request, ulong id)
+        public async override Task<ServiceResponse> Update(ServiceRequest request, ulong id)
         {
             var entity = await _repository.FindAsync(id);
 
             if (entity == null) throw new NullReferenceException(nameof(Service));
 
-            //entity.Name = service.Name; 
-            //entity.Description = service.Description;
-            //entity.AverageExecutionTime = service.AverageExecutionTime;
-            //entity.Price = service.Price;
-
-            var result = _mapper.Map<CreateServiceRequest, ServiceResponse>(request);
+            var updateServiceRequest = request as UpdateServiceRequest;
+            var result = _mapper.Map(updateServiceRequest, entity);
 
             _repository.Update(entity);
             await _repository.SaveChangesAsync();
-            return _mapper.Map<Service, ServiceResponse>(entity);
+            return _mapper.Map<Service, ServiceResponse>(result);
         }
     }
 }

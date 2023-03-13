@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Queue.Application.Services
 {
-    public class WorkerService : BaseService<Worker, CreateWorkerRequest, WorkerResponse>, IWorkerService
+    public class WorkerService : BaseService<Worker, WorkerRequest, WorkerResponse>, IWorkerService
     {
         private readonly IRepository<Worker> _repository;
         private readonly IMapper _mapper;
@@ -27,13 +27,12 @@ namespace Queue.Application.Services
             _mapper = mapper;
         }
 
-        // Create, Delete, Get, Update
-
-        public async override Task<WorkerResponse> Create(CreateWorkerRequest request)
+        public async override Task<WorkerResponse> Create(WorkerRequest request)
         {
             if (request == null) throw new NullReferenceException(nameof(Worker));
 
-            var entity = _mapper.Map<CreateWorkerRequest, Worker>(request);
+            var createWorkerRequest = request as CreateWorkerRequest;
+            var entity = _mapper.Map<CreateWorkerRequest, Worker>(createWorkerRequest);
 
             await _repository.AddAsync(entity);
             await _repository.SaveChangesAsync();
@@ -62,33 +61,19 @@ namespace Queue.Application.Services
             return _mapper.Map<Worker, WorkerResponse>(entity);
         }
 
-        public async override Task<WorkerResponse> Update(CreateWorkerRequest request, ulong id)
+        public async override Task<WorkerResponse> Update(WorkerRequest request, ulong id)
         {
             var entity = await _repository.FindAsync(id);
 
             if (entity == null) throw new NullReferenceException(nameof(Worker));
 
-            //entity.FirstName = worker.FirstName;
-            //entity.LastName = worker.LastName;
-            //entity.Phone = worker.Phone;
-            //entity.Gender = worker.Gender;
-            //entity.Birthday = worker.Birthday;
-            //entity.Login = worker.Login;
-            //entity.Password = worker.Password;
-            //entity.Schedule = worker.Schedule;
-            //entity.Role = worker.Role;
-            //entity.InstagramAccount = worker.InstagramAccount;
-            //entity.DateOfEmployment = worker.DateOfEmployment;
-            //entity.DesmissialDate = worker.DesmissialDate;
-            //entity.Discharge = worker.Discharge;
-            //entity.Post = worker.Post;
-
-            var result = _mapper.Map<CreateWorkerRequest, WorkerResponse>(request);
+            var updateWorkerRequest = request as UpdateWorkerRequest;
+            var result = _mapper.Map(updateWorkerRequest, entity);
 
             _repository.Update(entity);
             await _repository.SaveChangesAsync();
 
-            return _mapper.Map<Worker, WorkerResponse>(entity);
+            return _mapper.Map<Worker, WorkerResponse>(result);
         }
     }
 }

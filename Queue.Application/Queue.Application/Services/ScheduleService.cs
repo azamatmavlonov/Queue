@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Queue.Application.Services
 {
-    public class ScheduleService : BaseService<Schedule, CreateScheduleRequest, ScheduleResponse>, IScheduleService
+    public class ScheduleService : BaseService<Schedule, ScheduleRequest, ScheduleResponse>, IScheduleService
     {
         private readonly IRepository<Schedule> _repository;
         private readonly IMapper _mapper;
@@ -23,11 +23,12 @@ namespace Queue.Application.Services
             _mapper = mapper;
         }
 
-        public async override Task<ScheduleResponse> Create(CreateScheduleRequest request)
+        public async override Task<ScheduleResponse> Create(ScheduleRequest request)
         {
             if (request == null) throw new NullReferenceException(nameof(Schedule));
 
-            var entity = _mapper.Map<CreateScheduleRequest, Schedule>(request);
+            var createScheduleRequest = request as CreateScheduleRequest;
+            var entity = _mapper.Map<CreateScheduleRequest, Schedule>(createScheduleRequest);
 
             await _repository.AddAsync(entity);
             await _repository.SaveChangesAsync();
@@ -55,23 +56,17 @@ namespace Queue.Application.Services
             return _mapper.Map<Schedule, ScheduleResponse>(entity);
         }
 
-        public async override Task<ScheduleResponse> Update(CreateScheduleRequest request, ulong id)
+        public async override Task<ScheduleResponse> Update(ScheduleRequest request, ulong id)
         {
             var entity = await _repository.FindAsync(id);
-
             if (entity == null) throw new NullReferenceException(nameof(Schedule));
 
-            //entity.WorkerId = schedule.WorkerId;
-            //entity.Day = schedule.Day;
-            //entity.Hour = schedule.Hour;
-            //entity.IsWorkingDay = schedule.IsWorkingDay;
-            //entity.IsEnable = schedule.IsEnable;
-
-            var result = _mapper.Map<CreateScheduleRequest, ScheduleResponse>(request);
+            var updateScheduleRequest = request as UpdateScheduleRequest;
+            var result = _mapper.Map(updateScheduleRequest, entity);
 
             _repository.Update(entity);
             await _repository.SaveChangesAsync();
-            return result;
+            return _mapper.Map<Schedule, ScheduleResponse>(result);
         }
     }
 }

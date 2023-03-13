@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Queue.Application.Common.Interfaces
 {
-    public interface IServiceService : IBaseService<Service, CreateServiceRequest, ServiceResponse>
+    public interface IServiceService : IBaseService<Service, ServiceRequest, ServiceResponse>
     {
     }
 }

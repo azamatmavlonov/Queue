@@ -12,7 +12,7 @@ namespace Queue.Application.Validations.ClientValidations
     {
         public CreateClientRequestValidation()
         {
-            RuleFor(c => c.Name).NotNull().NotEmpty();
+            RuleFor(c => c.FirstName).NotNull().NotEmpty();
             RuleFor(c => c.Phone).NotNull().NotEmpty().Length(15);
         }
     }

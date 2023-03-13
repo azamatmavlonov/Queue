@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Queue.Application.Services
 {
-    public class OrderService : BaseService<Order, CreateOrderRequest, OrderResponse>, IOrderService
+    public class OrderService : BaseService<Order, OrderRequest, OrderResponse>, IOrderService
     {
         private readonly IRepository<Order> _repository;
         private readonly IMapper _mapper;
@@ -22,11 +22,12 @@ namespace Queue.Application.Services
             _mapper = mapper;
         }
 
-        public async override Task<OrderResponse> Create(CreateOrderRequest request)
+        public async override Task<OrderResponse> Create(OrderRequest request)
         {
             if (request == null) throw new NullReferenceException(nameof(Order));
 
-            var entity = _mapper.Map<CreateOrderRequest, Order>(request);
+            var createOrderRequest = request as CreateOrderRequest;
+            var entity = _mapper.Map<CreateOrderRequest, Order>(createOrderRequest);
 
             await _repository.AddAsync(entity);
             await _repository.SaveChangesAsync();
@@ -53,27 +54,18 @@ namespace Queue.Application.Services
             return _mapper.Map<Order, OrderResponse>(entity);
         }
 
-        public async override Task<OrderResponse> Update(CreateOrderRequest request, ulong id)
+        public async override Task<OrderResponse> Update(OrderRequest request, ulong id)
         {
             var entity = await _repository.FindAsync(id);
-
             if (entity == null) throw new NullReferenceException(nameof(Order));
 
-            //entity.Services = order.Services;
-            //entity.ClientId = order.ClientId;
-            //entity.WorkerId = order.WorkerId;
-            //entity.StartedAt = order.StartedAt;
-            //entity.EndedAt = order.EndedAt;
-            //entity.TotalPrice = order.TotalPrice;
-            //entity.Status = order.Status;
-            //entity.Payment = order.Payment;
-
-            var result = _mapper.Map<CreateOrderRequest, OrderResponse>(request);
+            var updateOrderRequest = request as UpdateOrderRequest;
+            var result = _mapper.Map(updateOrderRequest, entity);
 
             _repository.Update(entity);
             await _repository.SaveChangesAsync();
 
-            return result;
+            return _mapper.Map<Order, OrderResponse>(result);
         }
     }
 }

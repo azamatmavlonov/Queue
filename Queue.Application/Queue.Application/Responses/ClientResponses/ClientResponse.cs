@@ -8,7 +8,8 @@ namespace Queue.Application.Responses.ClientResponses
 {
     public class ClientResponse : BaseResponse
     {
-        public ulong Id { get; set; }
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string Phone { get; set; }
+        public string Gender { get; set; }
     }
 }

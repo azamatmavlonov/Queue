@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Queue.Application.Requests.ClientRequests
+namespace Queue.Application.Requests.ScheduleRequests
 {
-    public class CreateClientRequest : ClientRequest
+    public class UpdateScheduleRequest : ScheduleRequest
     {
-        
     }
 }
